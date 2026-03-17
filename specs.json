@@ -1,0 +1,74 @@
+{
+  "binaries": [
+    {
+      "filename": "cardartlib.dll",
+      "expected_size": 139264,
+      "expected_md5": "c0d4000dd51613a213dead84e92911f8"
+    },
+    {
+      "filename": "CdTools.dll",
+      "expected_size": 75264,
+      "expected_md5": "646b6ad6f55171d43b3b2860ba69bf78"
+    },
+    {
+      "filename": "DECK.EXE",
+      "expected_size": 16429,
+      "expected_md5": "2551e5f72a7b776bc7fb23a13753c19f"
+    },
+    {
+      "filename": "deckdll.dll",
+      "expected_size": 269824,
+      "expected_md5": "4d06bf82d9ce5727adf89ff7d1d4102c"
+    },
+    {
+      "filename": "drawcardlib.dll",
+      "expected_size": 178176,
+      "expected_md5": "9ba848feec8fecc7c2ff910d42bb09b6"
+    },
+    {
+      "filename": "FaceMaker.exe",
+      "expected_size": 76288,
+      "expected_md5": "ecfa59cbb99e4a93903bfa35e39a4c86"
+    },
+    {
+      "filename": "gcconn.dll",
+      "expected_size": 188416,
+      "expected_md5": "613b1d750c8f6156fc703664775146e7"
+    },
+    {
+      "filename": "magic.exe",
+      "expected_size": 1714176,
+      "expected_md5": "0c1fa7752ceeb84a09f4440916219f72"
+    },
+    {
+      "filename": "MAGSND.DLL",
+      "expected_size": 25088,
+      "expected_md5": "5a8e0dea98be58bba6d1d0ecf73cf952"
+    },
+    {
+      "filename": "MAGVID.DLL",
+      "expected_size": 45056,
+      "expected_md5": "5a6bd7bb72db815210e1e575b1c19eb3"
+    },
+    {
+      "filename": "Manalink.exe",
+      "expected_size": 321536,
+      "expected_md5": "dac6d638fa91c049913b7861daeee3e9"
+    },
+    {
+      "filename": "ManalinkInterface.dll",
+      "expected_size": 46080,
+      "expected_md5": "3980049a8e5b8ec7ad39cf89810283d5"
+    },
+    {
+      "filename": "shandalar.exe",
+      "expected_size": 1878016,
+      "expected_md5": "4ced8ec9392be23af6670e28ecb373de"
+    },
+    {
+      "filename": "STATWIN.DLL",
+      "expected_size": 55808,
+      "expected_md5": "7d4310510608ea0d91b2b1feab93a4cd"
+    }
+  ]
+}

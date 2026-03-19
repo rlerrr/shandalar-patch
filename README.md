@@ -1,13 +1,13 @@
 # Shandalar patcher
 
-An unofficial patcher for the 1997 video game [Magic: the Gathering](https://en.wikipedia.org/wiki/Magic:_The_Gathering_(1997_video_game)) by MicroProse.  With the goal of making the game playable on modern Windows without changing gameplay meaningfully.  This is **not** related to other patches which add cards or functionality and is not compatible with them.
+A series of patches for the 1997 video game [Magic: the Gathering](https://en.wikipedia.org/wiki/Magic:_The_Gathering_(1997_video_game)) by MicroProse.  Allows the game to run on Windows 10/11 without changing gameplay meaningfully.  This is **not** related to other patches which add cards or functionality and is not compatible with them.  The result is still pretty rough and has several annoying issues not present when running on Windows 95/98.
 
 ## Included fixes
 
 * Disables broken DRM functions that rely on a Windows 95/98 ProductId in the registry.
-* Fixes buffer overflows in card rendering when running at resolutions over 1280x1024 (tested up to 4k resolution).
+* Fixes various crashes at resolutions over 1024x768 (tested up to 4k resolution).  Still recommended to run at 1024x768.
 * Fixes invalid Windows API params that are no longer silently ignored.
-* Fixes the framerate limiter in `shandalar.exe`.
+* Fixes the framerate limiter.
 * Cuts AI thinking time by 90% (still overkill on modern CPUs).
 
 ### Prerequisites
@@ -23,8 +23,10 @@ The final "Manalink" patch released by MicroProse, version 1.3.  Usually install
 
 ### Known issues
 
-* `shandalar.exe` and `facemaker.exe` freak out if Windows scaling isn't 100% and will crash if they can't set the resolution to 1024x768.
-* `shandalar.exe` has several text labels that aren't drawn, e.g.
+* While it no longer instantly crashes above 1024x768, most of the game will be windowed and noticeably glitchier.
+* Several text labels aren't drawn, e.g.
     * Lost this Card
     * Buy for X gold Y/N
-    * Begin a Quest (resolves when hovered)
+    * Begin a Quest (fixes itself when hovered)
+* Highlighting of the selected dialog option is super wonky.
+* Buying food repeats WAY too fast. It's almost impossible to buy 1 stack.

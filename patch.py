@@ -177,12 +177,15 @@ def build_frame_limiter_mod_3c(clock_iat_va: int) -> bytes:
         ]
     )
 
+def pad_with_nops(data: bytes, size: int) -> bytes:
+    if len(data) > size:
+        raise ValueError("input is larger than target size")
+    return data + b"\x90" * (size - len(data))
 
 def build_call_stub(from_va: int, to_va: int, total_len: int) -> bytes:
     if total_len < 5:
         raise ValueError("call stub needs at least 5 bytes")
     return b"\xE8" + _rel32(from_va, to_va, 5) + (b"\x90" * (total_len - 5))
-
 
 def patch_shandalar_frame_limiter() -> None:
     # code cave for the new limiter function (too long to directly patch)
@@ -203,7 +206,7 @@ def patch_shandalar_frame_limiter() -> None:
 
     stub = build_call_stub(site_va, cave_va, site_size)
 
-    patch("shandalar.exe", cave_va, helper + (b"\x90" * (cave_size - len(helper))))
+    patch("shandalar.exe", cave_va, pad_with_nops(helper, cave_size))
     patch("shandalar.exe", site_va, stub)
 
 
@@ -216,7 +219,7 @@ def patch_large_decode_scratch() -> None:
     targets = [
         ("cardartlib.dll", 0x10032C98, 4, 0x100AD498, 2),
         ("drawcardlib.dll", 0x1003AB68, 4, 0x100B5368, 2),
-        ("shandalar.exe", 0x0067ad80, 4, 0x006f5580, 2)
+        #("shandalar.exe", 0x0067ad80, 4, 0x006f5580, 2)
     ]
 
     for filename, old_haar_va, haar_ref_count, old_catalog_va, catalog_ref_count in targets:
@@ -267,6 +270,16 @@ def main() -> int:
     # Fix invalid CreateFileMappingA param
     patch("magic.exe", 0x4944EE, b"\x68\x02\x00\x00\x00")
     patch("shandalar.exe", 0x464f89, b"\x68\x02\x00\x00\x00")
+
+    # Fix swapped params to GetCurrentDirectoryA trying to write to 0x100 (innocuous)
+    # patch("facemaker.exe", 0x40560B, pad_with_nops(b"\x68\x24\xb0\x41\x00\x68\x00\x01\x00\x00", 13))
+    
+    # Avoid crashing if resolution is too high (changes resolution check from hrez == 1024 to >= 1024)
+    patch("facemaker.exe", 0x4058CA, b"\x8D")
+    patch("shandalar.exe", 0x4CE2CE, b"\x8D")
+
+    # Patch FUN_00406650 to use calculated res rather than running GetDeviceCaps()
+    patch("facemaker.exe", 0x004066af, pad_with_nops(b"\xA1\x10\xD1\x41\x00\xA3\x6C\x65\x42\x00\x89\x46\x20\xA1\x14\xD1\x41\x00", 25))
 
     # Replace the broken shandalar.exe frame limiter
     patch_shandalar_frame_limiter()

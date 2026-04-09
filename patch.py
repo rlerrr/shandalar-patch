@@ -185,7 +185,7 @@ def pad_with_nops(data: bytes, size: int) -> bytes:
 def build_call_stub(from_va: int, to_va: int, total_len: int) -> bytes:
     if total_len < 5:
         raise ValueError("call stub needs at least 5 bytes")
-    return b"\xE8" + _rel32(from_va, to_va, 5) + (b"\x90" * (total_len - 5))
+    return pad_with_nops(b"\xE8" + _rel32(from_va, to_va, 5), total_len)
 
 def patch_shandalar_frame_limiter() -> None:
     # code cave for the new limiter function (too long to directly patch)
@@ -271,15 +271,17 @@ def main() -> int:
     patch("magic.exe", 0x4944EE, b"\x68\x02\x00\x00\x00")
     patch("shandalar.exe", 0x464f89, b"\x68\x02\x00\x00\x00")
 
-    # Fix swapped params to GetCurrentDirectoryA trying to write to 0x100 (innocuous)
-    # patch("facemaker.exe", 0x40560B, pad_with_nops(b"\x68\x24\xb0\x41\x00\x68\x00\x01\x00\x00", 13))
-    
     # Avoid crashing if resolution is too high (changes resolution check from hrez == 1024 to >= 1024)
     patch("facemaker.exe", 0x4058CA, b"\x8D")
+    patch("facemaker.exe", 0x404317, b"\x8D")
     patch("shandalar.exe", 0x4CE2CE, b"\x8D")
 
     # Patch FUN_00406650 to use calculated res rather than running GetDeviceCaps()
     patch("facemaker.exe", 0x004066af, pad_with_nops(b"\xA1\x10\xD1\x41\x00\xA3\x6C\x65\x42\x00\x89\x46\x20\xA1\x14\xD1\x41\x00", 25))
+
+    # Fix broken text in shandalar (stolen from Shandalar 2012) adding a GdiFlush after the text is rendered
+    patch("shandalar.exe", 0x00464e86, b"\x8B\x85\x08\x00\x00\x00\x50\x8B\x85\x04\x00\x00\x00\x50\xFF\x15\x74\x78\x98\x00\xFF\x15\x90\x78\x98\x00\xC2\x08\x00")
+    patch("shandalar.exe", 0x0057af7d, build_call_stub(0x0057af7d, 0x00464e86, 6))
 
     # Replace the broken shandalar.exe frame limiter
     patch_shandalar_frame_limiter()

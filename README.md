@@ -8,6 +8,7 @@ A series of patches for the 1997 video game [Magic: the Gathering](https://en.wi
 * Fixes various crashes at resolutions over 1024x768 (tested up to 4k resolution).  Still recommended to run at 1024x768.
 * Fixes invalid Windows API params that are no longer silently ignored.
 * Fixes the framerate limiter.
+* Fixes text rendering issues.
 * Cuts AI thinking time by 90% (still overkill on modern CPUs).
 
 ### Prerequisites
@@ -23,10 +24,5 @@ The final "Manalink" patch released by MicroProse, version 1.3.  Usually install
 
 ### Known issues
 
-* While it no longer instantly crashes above 1024x768, most of the game will be windowed and noticeably glitchier.
-* Several text labels aren't drawn, e.g.
-    * Lost this Card
-    * Buy for X gold Y/N
-    * Begin a Quest (fixes itself when hovered)
-* Highlighting of the selected dialog option is super wonky.
+* While it no longer instantly crashes above 1024x768, most of the game will be windowed and a bit glitchier.
 * Buying food repeats WAY too fast. It's almost impossible to buy 1 stack.
